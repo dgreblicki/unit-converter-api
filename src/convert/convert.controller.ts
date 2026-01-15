@@ -1,6 +1,4 @@
 import { Controller, Get, Query } from '@nestjs/common';
-// ONLY import type because it's used in the signature, not at runtime
-import type { ConvertQueryDto } from './dto/convert-query.dto';
 import { ConvertService } from './convert.service';
 
 @Controller('v1/convert')
@@ -8,18 +6,31 @@ export class ConvertController {
   constructor(private readonly convertService: ConvertService) {}
 
   @Get()
-  convert(@Query() query: ConvertQueryDto) {
-    const { value, from, to, base } = query;
+  convert(
+    @Query('value') value: string,
+    @Query('from') from: string,
+    @Query('to') to: string,
+    @Query('base') base?: string,
+  ) {
+    // Parse numbers manually
+    const numValue = Number(value);
+    const baseValue = base ? Number(base) : 16;
 
-    const result = this.convertService.convert(value, from, to, base);
+    // Validate required fields
+    if (!numValue || !from || !to) {
+      return {
+        error: 'Missing required query parameters: value, from, to',
+      };
+    }
+
+    const result = this.convertService.convert(numValue, from, to, baseValue);
 
     return {
-      input: value,
+      input: numValue,
       from,
       to,
-      base: base ?? 16,
+      base: baseValue,
       result,
     };
   }
 }
-

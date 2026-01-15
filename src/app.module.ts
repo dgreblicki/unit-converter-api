@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConvertModule } from './convert/convert.module';
 
 @Module({
-  imports: [ConvertModule],  // register the convert module
-  controllers: [],
-  providers: [],
+  imports: [ConvertModule],
 })
 export class AppModule {}

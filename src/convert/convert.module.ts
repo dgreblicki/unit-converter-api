@@ -4,6 +4,6 @@ import { ConvertService } from './convert.service';
 
 @Module({
   controllers: [ConvertController],
-  providers: [ConvertService]
+  providers: [ConvertService],
 })
 export class ConvertModule {}

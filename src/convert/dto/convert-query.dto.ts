@@ -4,7 +4,7 @@ import { Type } from 'class-transformer';
 export class ConvertQueryDto {
   @Type(() => Number)
   @IsNumber()
-  value!: number;  // Note the "!" tells TS this will be initialized
+  value!: number;
 
   @IsIn(['px', 'rem', 'em'])
   from!: 'px' | 'rem' | 'em';
@@ -14,5 +14,6 @@ export class ConvertQueryDto {
 
   @Type(() => Number)
   @IsOptional()
-  base?: number;  // Optional, no "!" needed
+  @IsNumber()
+  base?: number;
 }
